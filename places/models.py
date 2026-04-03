@@ -28,4 +28,4 @@ class PlaceImage(models.Model):
         verbose_name_plural = 'Картинки'
 
     def __str__(self):
-        return f'{self.position} {self.place}'
+        return str(self.place)
