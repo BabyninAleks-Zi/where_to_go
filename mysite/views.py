@@ -2,6 +2,7 @@ import json
 
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
 from places.models import Place
 
@@ -30,7 +31,7 @@ def serialize_geojson(places):
             'properties': {
                 'title': place.title,
                 'placeId': place.id,
-                'detailsUrl': f'/places/{place.id}/',
+                'detailsUrl': reverse('place-detail', args=[place.id]),
             },
         }
         for place in places
