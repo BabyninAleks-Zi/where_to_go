@@ -23,6 +23,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 
 INSTALLED_APPS = [
     'adminsortable2',
+    'tinymce',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
