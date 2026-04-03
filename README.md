@@ -54,3 +54,11 @@ python manage.py runserver
   - WYSIWYG-редактор (`django-tinymce`) для длинного описания,
   - превью изображений,
   - сортировка картинок drag-and-drop (`django-admin-sortable2`).
+
+Нащ## Загрузка данных
+
+Загрузить одну локацию по URL JSON:
+
+```sh
+python manage.py load_place "http://адрес/файла.json"
+```
