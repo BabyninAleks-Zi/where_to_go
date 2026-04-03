@@ -55,7 +55,7 @@ python manage.py runserver
   - превью изображений,
   - сортировка картинок drag-and-drop (`django-admin-sortable2`).
 
-Нащ## Загрузка данных
+## Загрузка данных
 
 Загрузить одну локацию по URL JSON:
 
