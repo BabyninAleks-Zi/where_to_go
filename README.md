@@ -55,10 +55,18 @@ python manage.py runserver
   - превью изображений,
   - сортировка картинок drag-and-drop (`django-admin-sortable2`).
 
-Нащ## Загрузка данных
+## Загрузка данных
 
 Загрузить одну локацию по URL JSON:
 
 ```sh
 python manage.py load_place "http://адрес/файла.json"
 ```
+
+Пример, как если у Вас JSON файл находился в папке проекта /media/places_jsons/:
+
+```sh
+python manage.py load_place "http://127.0.0.1:8000/media/places_jsons/Антикафе Bizone.json"
+```
+
+<img width="654" height="66" alt="image" src="https://github.com/user-attachments/assets/e86d24b1-0a92-456d-8c6e-992bc2644c7e" />
