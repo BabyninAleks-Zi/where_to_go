@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from mysite.views import place_detail, show_map
+from where_to_go.views import place_detail, show_map
 
 urlpatterns = [
     path('admin/', admin.site.urls),
