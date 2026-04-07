@@ -1,5 +1,3 @@
-import json
-
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -45,7 +43,7 @@ def serialize_geojson(places):
 def show_map(request):
     places = Place.objects.all()
     context = {
-        'places_geojson': json.dumps(serialize_geojson(places), ensure_ascii=False),
+        'places_geojson': serialize_geojson(places),
     }
     return render(request, 'index.html', context)
 
