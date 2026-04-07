@@ -14,7 +14,7 @@ class PlaceImagePreviewMixin:
             return '-'
 
         return format_html(
-            '<img src="{}" style="max-height: 200px; width: auto;" />',
+            '<img src="{}" style="max-height: 200px; max-width: 200px; width: auto; height: auto;" />',
             obj.image.url,
         )
 
@@ -34,7 +34,7 @@ class PlaceAdminForm(forms.ModelForm):
         model = Place
         fields = '__all__'
         widgets = {
-            'description_long': TinyMCE(),
+            'long_description': TinyMCE(),
         }
 
 
@@ -50,3 +50,4 @@ class PlaceImageAdmin(PlaceImagePreviewMixin, admin.ModelAdmin):
     list_display = ['__str__', 'get_preview']
     fields = ['place', 'image', 'get_preview']
     readonly_fields = ['get_preview']
+    raw_id_fields = ['place']
