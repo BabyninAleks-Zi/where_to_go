@@ -37,31 +37,27 @@ class Command(BaseCommand):
         json_url = options['json_url']
 
         try:
-            place_data = get_json(json_url)
+            raw_place_data = get_json(json_url)
         except requests.RequestException as error:
             raise CommandError(f'Не удалось скачать JSON: {error}')
 
-        coordinates = place_data['coordinates']
-        place, created = Place.objects.get_or_create(
-            title=place_data['title'],
-            defaults={
-                'short_description': place_data['description_short'],
-                'long_description': place_data['description_long'],
-                'lng': float(coordinates['lng']),
-                'lat': float(coordinates['lat']),
-            },
-        )
+        coordinates = raw_place_data['coordinates']
 
-        if not created:
-            place.short_description = place_data['description_short']
-            place.long_description = place_data['description_long']
-            place.lng = float(coordinates['lng'])
-            place.lat = float(coordinates['lat'])
-            place.save()
+        place_defaults = {
+            'short_description': raw_place_data['description_short'],
+            'long_description': raw_place_data['description_long'],
+            'lng': float(coordinates['lng']),
+            'lat': float(coordinates['lat']),
+        }
+
+        place, _ = Place.objects.update_or_create(
+            title=raw_place_data['title'],
+            defaults=place_defaults,
+        )
 
         place.images.all().delete()
 
-        for position, raw_image_url in enumerate(place_data.get('imgs', []), start=1):
+        for position, raw_image_url in enumerate(raw_place_data.get('imgs', []), start=1):
             image_url = urljoin(json_url, raw_image_url)
             try:
                 image_content = download_image(image_url)
@@ -69,8 +65,10 @@ class Command(BaseCommand):
                 raise CommandError(f'Не удалось скачать картинку {image_url}: {error}')
 
             filename = get_filename_from_url(image_url)
-            image_file = ContentFile(image_content, name=filename)
-            place_image = PlaceImage(place=place, position=position)
-            place_image.image.save(filename, image_file, save=True)
+            PlaceImage.objects.create(
+                place=place,
+                position=position,
+                image=ContentFile(image_content, name=filename),
+            )
 
         self.stdout.write(self.style.SUCCESS(f'Загружено место: {place.title}'))
